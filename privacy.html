@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aviso de Privacidad — ADAPTA</title>
+<meta name="description" content="Aviso de Privacidad Integral de ADAPTA conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:   #080A08;
+    --dark:    #0E110E;
+    --surface: #141814;
+    --surface2:#1C211C;
+    --border:  #242924;
+    --green:   #00FF5E;
+    --white:   #F0F5F0;
+    --muted:   #6B7A6B;
+    --muted2:  #4A574A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,94,0.013) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,94,0.013) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,10,8,0.94);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--green); }
+  .nav-back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--white); }
+
+  /* LAYOUT */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 72px 24px 120px;
+  }
+
+  /* HEADER */
+  .doc-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .doc-eyebrow::before {
+    content: '';
+    width: 20px; height: 1px;
+    background: var(--green);
+  }
+  .doc-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .doc-title span { color: var(--green); }
+
+  .doc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 20px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 56px;
+  }
+  .doc-meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .doc-meta-label { font-size: 10px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+  .doc-meta-val { font-size: 13px; font-weight: 500; color: var(--white); }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-of-type { border-bottom: none; }
+
+  .section-num {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--white);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--white);
+    margin: 24px 0 8px;
+    letter-spacing: 0.01em;
+  }
+
+  p {
+    font-size: 15px;
+    font-weight: 300;
+    color: #9aaa9a;
+    margin-bottom: 14px;
+    line-height: 1.8;
+  }
+  p strong { color: var(--white); font-weight: 500; }
+  p a { color: var(--green); text-underline-offset: 3px; }
+  p a:hover { opacity: 0.8; }
+
+  /* LISTS */
+  ul, ol {
+    padding-left: 0;
+    margin-bottom: 16px;
+    list-style: none;
+  }
+  ul li, ol li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 15px;
+    font-weight: 300;
+    color: #9aaa9a;
+    margin-bottom: 8px;
+    line-height: 1.75;
+  }
+  ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-weight: 400;
+  }
+  ol { counter-reset: ol-counter; }
+  ol li { counter-increment: ol-counter; }
+  ol li::before {
+    content: counter(ol-counter) '.';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 600;
+    top: 3px;
+  }
+  li strong { color: var(--white); font-weight: 500; }
+
+  /* INFO BOX */
+  .info-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .info-box p { margin-bottom: 0; }
+  .info-box p + p { margin-top: 8px; }
+
+  /* DATA TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  .data-table th {
+    background: var(--surface);
+    color: var(--green);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    color: #9aaa9a;
+    font-weight: 300;
+    vertical-align: top;
+    line-height: 1.65;
+  }
+  .data-table tr:nth-child(even) td { background: var(--surface); }
+  .data-table td strong { color: var(--white); font-weight: 500; }
+
+  /* CONTACT CARD */
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .contact-item { display: flex; flex-direction: column; gap: 4px; }
+  .contact-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .contact-val {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--white);
+  }
+  .contact-val a { color: var(--green); text-decoration: none; }
+  .contact-val a:hover { text-decoration: underline; }
+
+  /* WARNING BOX */
+  .warning-box {
+    background: rgba(0,255,94,0.04);
+    border: 1px solid rgba(0,255,94,0.2);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 32px 0;
+  }
+  .warning-box p {
+    color: rgba(0,255,94,0.8);
+    font-size: 13px;
+    margin: 0;
+  }
+  .warning-box p strong { color: var(--green); }
+
+  /* TOC */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 56px;
+  }
+  .toc-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .toc ol { margin: 0; }
+  .toc li {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 6px;
+    padding-left: 24px;
+  }
+  .toc li a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .toc li a:hover { color: var(--green); }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 28px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--green); }
+  footer p { font-size: 12px; color: var(--muted2); }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .container { padding: 48px 20px 80px; }
+    .contact-card { grid-template-columns: 1fr; }
+    footer { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">ADAPT<span>A</span></a>
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M13 7H1M6 2L1 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Volver al inicio
+  </a>
+</nav>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <p class="doc-eyebrow">Documento legal</p>
+  <h1 class="doc-title">Aviso de<br><span>Privacidad</span></h1>
+
+  <div class="doc-meta">
+    <div class="doc-meta-item">
+      <span class="doc-meta-label">Fecha de emisión</span>
+      <span class="doc-meta-val">19 de marzo de 2026</span>
+    </div>
+    <div class="doc-meta-item">
+      <span class="doc-meta-label">Última actualización</span>
+      <span class="doc-meta-val">19 de marzo de 2026</span>
+    </div>
+    <div class="doc-meta-item">
+      <span class="doc-meta-label">Versión</span>
+      <span class="doc-meta-val">1.0</span>
+    </div>
+    <div class="doc-meta-item">
+      <span class="doc-meta-label">Marco legal</span>
+      <span class="doc-meta-val">LFPDPPP · México</span>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <p class="toc-title">Contenido</p>
+    <ol>
+      <li><a href="#responsable">Identidad y domicilio del Responsable</a></li>
+      <li><a href="#datos">Datos personales recabados</a></li>
+      <li><a href="#finalidades">Finalidades del tratamiento</a></li>
+      <li><a href="#transferencias">Transferencias de datos</a></li>
+      <li><a href="#derechos">Derechos ARCO</a></li>
+      <li><a href="#consentimiento">Mecanismo para revocar el consentimiento</a></li>
+      <li><a href="#cookies">Uso de cookies y tecnologías similares</a></li>
+      <li><a href="#menores">Datos de menores de edad</a></li>
+      <li><a href="#seguridad">Medidas de seguridad</a></li>
+      <li><a href="#cambios">Cambios al aviso de privacidad</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ol>
+  </div>
+
+  <div class="warning-box">
+    <p><strong>Importante:</strong> Al utilizar la aplicación ADAPTA o registrarte en nuestra lista de espera, aceptas los términos del presente Aviso de Privacidad y consientes el tratamiento de tus datos personales conforme a lo aquí descrito.</p>
+  </div>
+
+  <!-- 1. RESPONSABLE -->
+  <div class="section" id="responsable">
+    <p class="section-num">01</p>
+    <h2>Identidad y domicilio del Responsable</h2>
+    <p>En cumplimiento con lo dispuesto por la <strong>Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP)</strong> y su Reglamento, se pone a su disposición el presente Aviso de Privacidad.</p>
+    <p>El responsable del tratamiento de sus datos personales es:</p>
+    <div class="contact-card">
+      <div class="contact-item">
+        <span class="contact-label">Nombre del responsable</span>
+        <span class="contact-val">Jorge Antonio Mota Villa</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Denominación comercial</span>
+        <span class="contact-val">ADAPTA</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Domicilio</span>
+        <span class="contact-val">San Luis Potosí, S.L.P., México</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Sitio web</span>
+        <span class="contact-val"><a href="https://adaptaapp.com">adaptaapp.com</a></span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Correo electrónico</span>
+        <span class="contact-val"><a href="mailto:dev.antoniomota@gmail.com">dev.antoniomota@gmail.com</a></span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Marco legal aplicable</span>
+        <span class="contact-val">LFPDPPP y su Reglamento</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. DATOS -->
+  <div class="section" id="datos">
+    <p class="section-num">02</p>
+    <h2>Datos personales recabados</h2>
+    <p>Para cumplir con las finalidades descritas en este aviso, ADAPTA recaba y trata las siguientes categorías de datos personales:</p>
+
+    <h3>Datos de identificación y contacto</h3>
+    <ul>
+      <li>Nombre completo</li>
+      <li>Dirección de correo electrónico</li>
+      <li>Contraseña (almacenada de forma cifrada; nunca en texto plano)</li>
+    </ul>
+
+    <h3>Datos de perfil deportivo</h3>
+    <ul>
+      <li>Deporte principal practicado y nivel de entrenamiento</li>
+      <li>Objetivos de rendimiento o salud</li>
+      <li>Fecha de nacimiento, sexo biológico</li>
+    </ul>
+
+    <h3>Datos de salud y actividad física <span style="color:var(--green);font-size:12px;font-weight:600">(datos sensibles)</span></h3>
+    <p>De conformidad con el artículo 9 de la LFPDPPP, los siguientes datos son considerados <strong>datos personales sensibles</strong> y su tratamiento requiere consentimiento expreso:</p>
+    <ul>
+      <li>Historial de actividades físicas (distancia, duración, ritmo, potencia)</li>
+      <li>Frecuencia cardíaca y variabilidad de frecuencia cardíaca (HRV)</li>
+      <li>Datos de sueño (duración, fases, calidad)</li>
+      <li>Estimación de VO2Max y métricas de condición física</li>
+      <li>Body Battery y niveles de energía estimados</li>
+      <li>Peso corporal, medidas antropométricas y composición corporal</li>
+      <li>Información nutricional y alimentaria registrada voluntariamente</li>
+      <li>Planes y recomendaciones de nutriólogo (cuando el usuario los cargue)</li>
+    </ul>
+
+    <h3>Datos de uso de la aplicación</h3>
+    <ul>
+      <li>Historial de conversaciones con el asistente de inteligencia artificial</li>
+      <li>Preferencias y configuraciones dentro de la app</li>
+      <li>Datos de sesión, dirección IP y tipo de dispositivo</li>
+      <li>Registros de errores y métricas de rendimiento de la aplicación</li>
+    </ul>
+
+    <div class="info-box">
+      <p><strong>Fuentes de datos de terceros:</strong> Con su autorización expresa, ADAPTA obtiene datos de actividad física desde las plataformas <strong>Garmin Connect</strong> y <strong>Strava</strong> mediante sus respectivas APIs. Usted puede revocar este acceso en cualquier momento desde la configuración de la aplicación o desde su cuenta en dichas plataformas.</p>
+    </div>
+  </div>
+
+  <!-- 3. FINALIDADES -->
+  <div class="section" id="finalidades">
+    <p class="section-num">03</p>
+    <h2>Finalidades del tratamiento</h2>
+    <p>Sus datos personales serán utilizados para las siguientes finalidades:</p>
+
+    <h3>Finalidades primarias (necesarias para la prestación del servicio)</h3>
+    <ul>
+      <li><strong>Crear y gestionar su cuenta de usuario</strong> en la plataforma ADAPTA.</li>
+      <li><strong>Sincronizar y centralizar</strong> sus datos de actividad física provenientes de Garmin Connect y Strava.</li>
+      <li><strong>Analizar sus métricas de entrenamiento, sueño y recuperación</strong> para calcular indicadores de carga, forma física y descanso (ATL, CTL, TSB, HRV).</li>
+      <li><strong>Generar recomendaciones personalizadas</strong> de entrenamiento, descanso y alimentación mediante inteligencia artificial.</li>
+      <li><strong>Proveer el servicio de chat con asistente de IA</strong> capaz de responder consultas sobre su historial y métricas de salud.</li>
+      <li><strong>Enviar notificaciones</strong> relacionadas con su actividad, recomendaciones y alertas de recuperación.</li>
+      <li><strong>Incorporar planes nutricionales</strong> proporcionados por su nutriólogo al contexto del asistente de IA, con su consentimiento.</li>
+    </ul>
+
+    <h3>Finalidades secundarias (opcionales; puede oponerse)</h3>
+    <ul>
+      <li><strong>Comunicaciones informativas</strong> sobre nuevas funcionalidades, actualizaciones y mejoras de la plataforma.</li>
+      <li><strong>Análisis estadísticos agregados y anonimizados</strong> para mejorar los modelos de recomendación (nunca con datos identificables).</li>
+    </ul>
+
+    <p>Si no desea que sus datos sean tratados para las finalidades secundarias, puede manifestarlo enviando un correo a <a href="mailto:dev.antoniomota@gmail.com">dev.antoniomota@gmail.com</a> con el asunto <strong>"Oposición finalidades secundarias"</strong>.</p>
+  </div>
+
+  <!-- 4. TRANSFERENCIAS -->
+  <div class="section" id="transferencias">
+    <p class="section-num">04</p>
+    <h2>Transferencias de datos</h2>
+    <p>ADAPTA <strong>no vende, renta ni comercializa</strong> sus datos personales a terceros. Sus datos podrán ser compartidos únicamente en los siguientes casos:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Destinatario</th>
+          <th>Finalidad</th>
+          <th>Requiere consentimiento</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Anthropic, Inc.</strong> (proveedor de IA)</td>
+          <td>Procesamiento de consultas del chat mediante la API de Claude. Los datos se transmiten de forma cifrada y no se usan para entrenar modelos.</td>
+          <td>No (encargado de tratamiento)</td>
+        </tr>
+        <tr>
+          <td><strong>Proveedor de infraestructura cloud</strong> (Railway / Render / AWS)</td>
+          <td>Alojamiento seguro de la base de datos y servicios backend de la aplicación.</td>
+          <td>No (encargado de tratamiento)</td>
+        </tr>
+        <tr>
+          <td><strong>Firebase / Google</strong></td>
+          <td>Envío de notificaciones push a su dispositivo móvil.</td>
+          <td>No (encargado de tratamiento)</td>
+        </tr>
+        <tr>
+          <td><strong>Nutriólogo designado por usted</strong></td>
+          <td>Acceso a sus métricas de salud y actividad, únicamente con su consentimiento explícito y revocable en cualquier momento.</td>
+          <td>Sí (consentimiento expreso)</td>
+        </tr>
+        <tr>
+          <td><strong>Autoridades competentes</strong></td>
+          <td>Cuando sea requerido por ley, resolución judicial o autoridad administrativa mexicana.</td>
+          <td>No aplica (obligación legal)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Todas las transferencias a encargados de tratamiento se realizan bajo contratos que garantizan niveles de protección equivalentes a los establecidos por la LFPDPPP.</p>
+  </div>
+
+  <!-- 5. DERECHOS ARCO -->
+  <div class="section" id="derechos">
+    <p class="section-num">05</p>
+    <h2>Derechos ARCO</h2>
+    <p>Usted tiene derecho en todo momento a ejercer sus derechos de <strong>Acceso, Rectificación, Cancelación y Oposición (ARCO)</strong> respecto de sus datos personales, conforme a lo establecido en los artículos 22 al 35 de la LFPDPPP.</p>
+
+    <h3>¿Qué implica cada derecho?</h3>
+    <ul>
+      <li><strong>Acceso:</strong> Conocer qué datos personales tenemos sobre usted, cómo los tratamos y con qué finalidades.</li>
+      <li><strong>Rectificación:</strong> Solicitar la corrección de sus datos cuando sean inexactos, incompletos o desactualizados.</li>
+      <li><strong>Cancelación:</strong> Solicitar la eliminación de sus datos de nuestros sistemas cuando ya no sean necesarios para las finalidades que justificaron su obtención.</li>
+      <li><strong>Oposición:</strong> Oponerse al tratamiento de sus datos para finalidades específicas, incluyendo las finalidades secundarias descritas en este aviso.</li>
+    </ul>
+
+    <h3>¿Cómo ejercer sus derechos ARCO?</h3>
+    <p>Para ejercer cualquiera de estos derechos, envíe una solicitud al correo <a href="mailto:dev.antoniomota@gmail.com">dev.antoniomota@gmail.com</a> con el asunto <strong>"Solicitud ARCO"</strong>, incluyendo:</p>
+    <ol>
+      <li>Nombre completo y correo electrónico registrado en ADAPTA.</li>
+      <li>Descripción clara del derecho que desea ejercer.</li>
+      <li>Copia de identificación oficial vigente.</li>
+      <li>Cualquier información adicional que facilite la localización de sus datos.</li>
+    </ol>
+    <p>Responderemos su solicitud en un plazo máximo de <strong>20 días hábiles</strong> contados a partir de su recepción, conforme al artículo 24 de la LFPDPPP. En caso de que la solicitud sea procedente, los cambios se efectuarán dentro de los <strong>15 días hábiles</strong> siguientes a la respuesta.</p>
+  </div>
+
+  <!-- 6. REVOCACIÓN -->
+  <div class="section" id="consentimiento">
+    <p class="section-num">06</p>
+    <h2>Mecanismo para revocar el consentimiento</h2>
+    <p>Usted puede revocar su consentimiento para el tratamiento de sus datos personales en cualquier momento, sin que ello tenga efectos retroactivos. Tenga en cuenta que la revocación del consentimiento para el tratamiento de datos de salud y actividad física implica la imposibilidad de prestar los servicios principales de ADAPTA.</p>
+
+    <h3>Formas de revocar el consentimiento</h3>
+    <ul>
+      <li><strong>Desde la app:</strong> En Ajustes → Privacidad → Eliminar mi cuenta y datos.</li>
+      <li><strong>Por correo:</strong> Envíe un mensaje a <a href="mailto:dev.antoniomota@gmail.com">dev.antoniomota@gmail.com</a> con el asunto <strong>"Revocación de consentimiento"</strong>.</li>
+      <li><strong>Desconexión de plataformas:</strong> Puede revocar el acceso de ADAPTA a Garmin Connect o Strava directamente desde la configuración de su cuenta en dichas plataformas, sin necesidad de eliminar su cuenta en ADAPTA.</li>
+    </ul>
+  </div>
+
+  <!-- 7. COOKIES -->
+  <div class="section" id="cookies">
+    <p class="section-num">07</p>
+    <h2>Uso de cookies y tecnologías similares</h2>
+    <p>El sitio web <strong>adaptaapp.com</strong> utiliza cookies técnicas estrictamente necesarias para el funcionamiento del sitio. No se utilizan cookies de rastreo publicitario ni se comparte información de navegación con terceros para fines publicitarios.</p>
+    <p>La aplicación móvil ADAPTA utiliza <strong>almacenamiento local seguro</strong> en su dispositivo para mantener su sesión activa y guardar preferencias de configuración. Esta información no se comparte con terceros.</p>
+  </div>
+
+  <!-- 8. MENORES -->
+  <div class="section" id="menores">
+    <p class="section-num">08</p>
+    <h2>Datos de menores de edad</h2>
+    <p>ADAPTA está dirigida exclusivamente a personas mayores de <strong>18 años</strong>. No recabamos intencionalmente datos personales de menores de edad. Si usted tiene conocimiento de que un menor ha proporcionado datos personales a través de nuestra plataforma, le solicitamos que nos lo notifique de inmediato a <a href="mailto:dev.antoniomota@gmail.com">dev.antoniomota@gmail.com</a> para proceder a su eliminación.</p>
+  </div>
+
+  <!-- 9. SEGURIDAD -->
+  <div class="section" id="seguridad">
+    <p class="section-num">09</p>
+    <h2>Medidas de seguridad</h2>
+    <p>ADAPTA implementa medidas de seguridad técnicas, administrativas y físicas para proteger sus datos personales contra daño, pérdida, alteración, destrucción, acceso o divulgación no autorizados, entre ellas:</p>
+    <ul>
+      <li>Cifrado de datos en tránsito mediante <strong>TLS 1.3</strong>.</li>
+      <li>Cifrado de datos en reposo en la base de datos.</li>
+      <li>Almacenamiento de contraseñas con <strong>hashing bcrypt</strong>; nunca en texto plano.</li>
+      <li>Cifrado AES-256 para tokens de acceso de plataformas externas (Garmin, Strava).</li>
+      <li>Acceso a la base de datos restringido por roles con principio de mínimo privilegio.</li>
+      <li>Monitoreo de errores y alertas de seguridad en tiempo real.</li>
+    </ul>
+    <p>No obstante, ningún sistema de transmisión de datos por Internet es completamente seguro. En caso de que ocurra una vulneración de seguridad que afecte sus datos, lo notificaremos conforme a lo establecido en el artículo 20 de la LFPDPPP.</p>
+  </div>
+
+  <!-- 10. CAMBIOS -->
+  <div class="section" id="cambios">
+    <p class="section-num">10</p>
+    <h2>Cambios al aviso de privacidad</h2>
+    <p>ADAPTA se reserva el derecho de modificar el presente Aviso de Privacidad en cualquier momento para reflejar cambios en nuestras prácticas, en la ley aplicable o en los servicios ofrecidos. Cualquier modificación será notificada a través de:</p>
+    <ul>
+      <li>Un aviso visible en la aplicación móvil al momento de iniciar sesión.</li>
+      <li>Un correo electrónico a la dirección registrada en su cuenta.</li>
+      <li>La publicación de la versión actualizada en <a href="https://adaptaapp.com/privacy">adaptaapp.com/privacy</a> con la fecha de última modificación.</li>
+    </ul>
+    <p>El uso continuado de la aplicación después de la notificación de cambios constituye su aceptación del aviso actualizado.</p>
+  </div>
+
+  <!-- 11. CONTACTO -->
+  <div class="section" id="contacto">
+    <p class="section-num">11</p>
+    <h2>Contacto y autoridad competente</h2>
+    <p>Para cualquier duda, solicitud o queja relacionada con el tratamiento de sus datos personales, puede contactarnos:</p>
+    <div class="contact-card">
+      <div class="contact-item">
+        <span class="contact-label">Responsable</span>
+        <span class="contact-val">Jorge Antonio Mota Villa</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Correo electrónico</span>
+        <span class="contact-val"><a href="mailto:dev.antoniomota@gmail.com">dev.antoniomota@gmail.com</a></span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Sitio web</span>
+        <span class="contact-val"><a href="https://adaptaapp.com">adaptaapp.com</a></span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Ciudad</span>
+        <span class="contact-val">San Luis Potosí, S.L.P., México</span>
+      </div>
+    </div>
+
+    <p style="margin-top:24px">Si considera que su solicitud no fue atendida satisfactoriamente, tiene derecho a acudir ante el <strong>Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales (INAI)</strong>, autoridad competente en materia de protección de datos personales en México, en <a href="https://www.inai.org.mx" target="_blank">www.inai.org.mx</a>.</p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">ADAPT<span>A</span></span>
+  <p>Aviso de Privacidad v1.0 — 19 de marzo de 2026</p>
+  <p>Conforme a la LFPDPPP · México</p>
+</footer>
+
+</body>
+</html>
