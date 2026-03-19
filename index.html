@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAPTA — Optimización inteligente de tu rendimiento</title>
+<meta name="description" content="ADAPTA es una plataforma de optimización de salud impulsada por IA. Entrenamiento, sueño, alimentación y recuperación — todo en un ecosistema inteligente.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:    #080A08;
+    --dark:     #0E110E;
+    --surface:  #141814;
+    --surface2: #1C211C;
+    --border:   #242924;
+    --green:    #00FF5E;
+    --green-dim:#00CC4A;
+    --green-deep:#003D1A;
+    --white:    #F0F5F0;
+    --muted:    #6B7A6B;
+    --muted2:   #4A574A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── Custom cursor ─────────────────────────────────────── */
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, opacity 0.2s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 32px; height: 32px;
+    border: 1px solid rgba(0,255,94,0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.12s ease-out, width 0.25s, height 0.25s, border-color 0.2s;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* ── Grid noise texture ────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,94,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,94,0.015) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Nav ───────────────────────────────────────────────── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  nav.scrolled {
+    border-color: var(--border);
+    background: rgba(8,10,8,0.92);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--green); }
+  .nav-badge {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+  }
+
+  /* ── Hero ──────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    overflow: hidden;
+  }
+
+  /* Radial glow */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -60%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,255,94,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Orbiting ring */
+  .orbit-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 520px; height: 520px;
+    border: 1px solid rgba(0,255,94,0.08);
+    border-radius: 50%;
+    transform: translate(-50%, -52%);
+    animation: spin 40s linear infinite;
+  }
+  .orbit-ring::before {
+    content: '';
+    position: absolute;
+    top: -3px; left: 50%;
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--green), 0 0 24px var(--green);
+    transform: translateX(-50%);
+  }
+  .orbit-ring-2 {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 700px; height: 700px;
+    border: 1px solid rgba(0,255,94,0.04);
+    border-radius: 50%;
+    transform: translate(-50%, -52%);
+    animation: spin 65s linear infinite reverse;
+  }
+  @keyframes spin { to { transform: translate(-50%, -52%) rotate(360deg); } }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(52px, 9vw, 108px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title .accent {
+    color: var(--green);
+    position: relative;
+    display: inline-block;
+  }
+  .hero-title .accent::after {
+    content: '';
+    position: absolute;
+    bottom: 4px; left: 0; right: 0;
+    height: 3px;
+    background: var(--green);
+    opacity: 0.4;
+    border-radius: 2px;
+  }
+
+  .hero-sub {
+    font-size: clamp(15px, 2vw, 18px);
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 32px auto 48px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green);
+    color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    padding: 14px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.15);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,255,94,0.3);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 14px 28px;
+    border-radius: 4px;
+    transition: color 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .btn-ghost:hover { color: var(--white); border-color: var(--muted2); transform: translateY(-2px); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Scroll indicator ──────────────────────────────────── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 1s 1.4s forwards;
+  }
+  .scroll-hint span { font-size: 10px; letter-spacing: 0.2em; color: var(--muted2); text-transform: uppercase; }
+  .scroll-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%,100% { opacity: 0.3; transform: scaleY(0.8); }
+    50%      { opacity: 1;   transform: scaleY(1); }
+  }
+
+  /* ── Section base ──────────────────────────────────────── */
+  section { position: relative; z-index: 1; }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--green);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .section-body {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 520px;
+  }
+
+  /* ── Pillars ───────────────────────────────────────────── */
+  .pillars {
+    padding: 100px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .pillars-header { margin-bottom: 64px; }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2px;
+  }
+
+  .pillar-card {
+    background: var(--surface);
+    padding: 40px 32px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s, border-color 0.3s;
+    cursor: none;
+  }
+  .pillar-card:first-child { border-radius: 8px 0 0 8px; }
+  .pillar-card:last-child  { border-radius: 0 8px 8px 0; }
+
+  .pillar-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--green);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .pillar-card:hover { background: var(--surface2); border-color: var(--muted2); }
+  .pillar-card:hover::before { transform: scaleX(1); }
+
+  .pillar-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+    display: block;
+    filter: grayscale(0.2);
+  }
+  .pillar-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted2);
+    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+  }
+  .pillar-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .pillar-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .pillar-soon {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--green);
+    border: 1px solid rgba(0,255,94,0.3);
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  /* ── How it works ──────────────────────────────────────── */
+  .how {
+    padding: 100px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .how-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 64px;
+  }
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: flex;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--green);
+    min-width: 28px;
+    padding-top: 2px;
+    letter-spacing: 0.05em;
+  }
+  .step-content {}
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .step-desc { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.65; }
+
+  /* Data visualization mockup */
+  .data-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .data-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(0,255,94,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .data-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .data-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; color: var(--white); }
+  .data-live {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 10px; letter-spacing: 0.1em; color: var(--green);
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(0,255,94,0.4); }
+    50%      { box-shadow: 0 0 0 6px rgba(0,255,94,0); }
+  }
+
+  .metric-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .metric-row:last-of-type { border-bottom: none; }
+  .metric-label { font-size: 12px; color: var(--muted); }
+  .metric-val { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--white); }
+  .metric-val span { font-size: 11px; font-weight: 400; color: var(--muted); margin-left: 2px; }
+  .metric-badge {
+    font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 100px;
+  }
+  .badge-green { background: rgba(0,255,94,0.12); color: var(--green); }
+  .badge-amber { background: rgba(255,180,0,0.12); color: #FFB400; }
+
+  .ai-bubble {
+    margin-top: 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+  }
+  .ai-bubble-label { font-size: 9px; letter-spacing: 0.2em; color: var(--green); text-transform: uppercase; margin-bottom: 6px; }
+  .ai-bubble-text { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.6; }
+  .ai-bubble-text strong { color: var(--white); font-weight: 500; }
+
+  /* ── Integrations ──────────────────────────────────────── */
+  .integrations {
+    padding: 100px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .int-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 40px;
+  }
+  .int-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--white);
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .int-chip:hover { border-color: var(--muted2); background: var(--surface2); transform: translateY(-2px); }
+  .int-chip .dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; }
+  .int-chip.coming { opacity: 0.45; }
+  .int-chip.coming .dot { background: var(--muted2); }
+
+  /* ── Coming soon banner ────────────────────────────────── */
+  .waitlist {
+    margin: 0 48px 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    max-width: 1104px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .waitlist::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse, rgba(0,255,94,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .waitlist-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .waitlist-title span { color: var(--green); }
+  .waitlist-sub { font-size: 16px; font-weight: 300; color: var(--muted); margin-bottom: 40px; }
+
+  .waitlist-form {
+    display: flex;
+    gap: 12px;
+    max-width: 480px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .waitlist-input {
+    flex: 1;
+    min-width: 240px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 14px 20px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .waitlist-input::placeholder { color: var(--muted2); }
+  .waitlist-input:focus { border-color: var(--green); }
+  .waitlist-input:focus + .btn-primary { box-shadow: 0 8px 32px rgba(0,255,94,0.25); }
+
+  /* ── Footer ────────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: 0.1em; }
+  .footer-logo span { color: var(--green); }
+  footer p { font-size: 12px; color: var(--muted2); }
+
+  /* ── Responsive ────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .pillars, .how, .integrations { padding: 64px 24px; }
+    .waitlist { padding: 40px 24px; margin: 0 24px 64px; }
+    footer { padding: 24px; }
+    .how-grid { grid-template-columns: 1fr; gap: 48px; }
+    .orbit-ring, .orbit-ring-2 { display: none; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+    .pillar-card:first-child { border-radius: 8px 8px 0 0; }
+    .pillar-card:last-child  { border-radius: 0 0 8px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">ADAPT<span>A</span></a>
+  <span class="nav-badge">COMING SOON</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="orbit-ring"></div>
+  <div class="orbit-ring-2"></div>
+
+  <p class="hero-eyebrow">Plataforma de optimización de salud con IA</p>
+
+  <h1 class="hero-title">
+    Tu cuerpo.<br>
+    <span class="accent">Optimizado.</span>
+  </h1>
+
+  <p class="hero-sub">
+    ADAPTA conecta tus datos de entrenamiento, sueño y alimentación para darte recomendaciones que realmente se adaptan a ti — en tiempo real, con inteligencia artificial.
+  </p>
+
+  <div class="hero-cta">
+    <a href="#waitlist" class="btn-primary">
+      Unirme a la lista de espera
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="#como-funciona" class="btn-ghost">Ver cómo funciona</a>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section>
+  <div class="pillars">
+    <div class="pillars-header">
+      <p class="section-label">Los pilares</p>
+      <h2 class="section-title">Salud completa,<br>no solo deporte</h2>
+      <p class="section-body">La mayoría de las apps optimizan una sola dimensión. ADAPTA conecta todas para darte una visión real de tu rendimiento.</p>
+    </div>
+
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <span class="pillar-icon">⚡</span>
+        <p class="pillar-num">01</p>
+        <p class="pillar-name">Entrenamiento</p>
+        <p class="pillar-desc">Análisis de carga, recuperación y progresión basado en tus datos de Garmin y Strava. Sin sobreentrenamiento.</p>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-icon">🌙</span>
+        <p class="pillar-num">02</p>
+        <p class="pillar-name">Sueño</p>
+        <p class="pillar-desc">Tu recuperación nocturna impacta directamente en tu rendimiento del día siguiente. La IA lo sabe y ajusta tus recomendaciones.</p>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-icon">🥦</span>
+        <p class="pillar-num">03</p>
+        <p class="pillar-name">Alimentación</p>
+        <p class="pillar-desc">Seguimiento nutricional inteligente con soporte para planes de nutriólogo certificado. Lo que comes importa tanto como lo que entrenas.</p>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-icon">🧠</span>
+        <p class="pillar-num">04</p>
+        <p class="pillar-name">Mental</p>
+        <p class="pillar-desc">Próximamente: bienestar mental integrado al ecosistema. Porque el rendimiento también ocurre en la mente.</p>
+        <span class="pillar-soon">Próximamente</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="como-funciona">
+  <div class="how">
+    <div>
+      <p class="section-label">Cómo funciona</p>
+      <h2 class="section-title">De los datos<br>a la acción</h2>
+    </div>
+    <div class="how-grid">
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <div class="step-content">
+            <p class="step-title">Conecta tus plataformas</p>
+            <p class="step-desc">Vincula tu cuenta de Garmin Connect o Strava. ADAPTA importa tu historial y se mantiene sincronizado automáticamente.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <div class="step-content">
+            <p class="step-title">La IA analiza tu contexto</p>
+            <p class="step-desc">Procesamos tus métricas de carga, sueño, HRV y nutrición para construir un perfil completo de tu estado físico en tiempo real.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <div class="step-content">
+            <p class="step-title">Recibe recomendaciones personalizadas</p>
+            <p class="step-desc">Cada mañana, ADAPTA te dice qué hacer hoy — entrenar fuerte, descansar, ajustar la alimentación. Basado en tu historial, no en promedios genéricos.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <div class="step-content">
+            <p class="step-title">Pregúntale lo que quieras</p>
+            <p class="step-desc">El chat con IA conoce tu entrenamiento, tus métricas y tus objetivos. Pregúntale lo que quieras — responde con contexto real.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live data card -->
+      <div class="data-card">
+        <div class="data-header">
+          <span class="data-title">Resumen de hoy</span>
+          <span class="data-live"><span class="live-dot"></span>En vivo</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Carga de entrenamiento (TSB)</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="metric-val">+12<span>pts</span></span>
+            <span class="metric-badge badge-green">Fresco</span>
+          </div>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Sueño anoche</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="metric-val">7.4<span>hrs</span></span>
+            <span class="metric-badge badge-green">Bueno</span>
+          </div>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">HRV matutino</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="metric-val">58<span>ms</span></span>
+            <span class="metric-badge badge-amber">Normal</span>
+          </div>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Body Battery</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="metric-val">74<span>/100</span></span>
+            <span class="metric-badge badge-green">Alto</span>
+          </div>
+        </div>
+        <div class="ai-bubble">
+          <p class="ai-bubble-label">ADAPTA recomienda</p>
+          <p class="ai-bubble-text">Hoy es buen día para un entrenamiento de <strong>calidad media-alta</strong>. Tu HRV está dentro del rango normal y llevas <strong>2 días de recuperación</strong>. Evita intervalos máximos — guárdalos para el jueves.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRATIONS -->
+<section>
+  <div class="integrations">
+    <p class="section-label">Integraciones</p>
+    <h2 class="section-title">Tus datos,<br>centralizados</h2>
+    <div class="int-grid">
+      <div class="int-chip"><span class="dot"></span>Garmin Connect</div>
+      <div class="int-chip"><span class="dot"></span>Strava</div>
+      <div class="int-chip coming"><span class="dot"></span>Apple Health</div>
+      <div class="int-chip coming"><span class="dot"></span>Google Fit</div>
+      <div class="int-chip coming"><span class="dot"></span>Carga manual FIT/GPX</div>
+      <div class="int-chip coming"><span class="dot"></span>Plan del nutriólogo</div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section id="waitlist">
+  <div class="waitlist">
+    <h2 class="waitlist-title">Sé de los <span>primeros</span><br>en probarlo</h2>
+    <p class="waitlist-sub">Estamos construyendo ADAPTA. Únete a la lista de espera y te avisamos cuando abramos el acceso beta.</p>
+    <div class="waitlist-form">
+      <input type="email" class="waitlist-input" placeholder="tu@email.com" id="emailInput">
+      <button class="btn-primary" onclick="handleWaitlist()">
+        Quiero acceso beta
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <p id="waitlist-msg" style="margin-top:16px;font-size:13px;color:var(--green);display:none;">
+      ✓ Te avisamos en cuanto abramos el acceso beta.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">ADAPT<span>A</span></span>
+  <p>© 2026 ADAPTA. En desarrollo.</p>
+  <p style="font-size:12px;color:var(--muted2)">Próximamente en iOS y Android</p>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  document.querySelectorAll('a, button, input').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '14px'; cursor.style.height = '14px';
+      ring.style.width = '48px'; ring.style.height = '48px';
+      ring.style.borderColor = 'rgba(0,255,94,0.6)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '8px'; cursor.style.height = '8px';
+      ring.style.width = '32px'; ring.style.height = '32px';
+      ring.style.borderColor = 'rgba(0,255,94,0.4)';
+    });
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Waitlist
+  function handleWaitlist() {
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) return;
+    document.getElementById('waitlist-msg').style.display = 'block';
+    document.getElementById('emailInput').value = '';
+    document.getElementById('emailInput').placeholder = '¡Listo!';
+  }
+
+  // Intersection observer for fade-in on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.pillar-card, .step, .int-chip').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = `opacity 0.6s ${i * 0.07}s, transform 0.6s ${i * 0.07}s`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
