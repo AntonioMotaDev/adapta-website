@@ -1,2 +1,2 @@
 # adapta-website
-landingpage for the new ia healt app 
+landingpage for the upcoming ia healt app 
